@@ -1,18 +1,14 @@
-# 環境變數與機密檔案
 .env
 Backend/.env
 Hardware/maincode/combine/secrets.h
 .github
 .vscode
 
-# Python 快取與虛擬環境
 __pycache__/
 *.pyc
 venv/
 
-# 資料庫檔案 (避免把含有病人個資的 DB 傳上網路)
 *.db
 *.sqlite3
 
-# AI 模型 (檔案通常太大，且隨時會重訓)
 Models/*.pkl
