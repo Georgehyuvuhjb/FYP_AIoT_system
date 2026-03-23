@@ -1,2 +1,0 @@
-﻿If submitted, this report will be used by core maintainers to improve
-future releases of conda.
