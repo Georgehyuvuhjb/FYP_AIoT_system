@@ -1,0 +1,83 @@
+artifacts:
+  model_dir: Models
+  save_format: joblib
+data:
+  base_exclude_cols:
+  - feature_id
+  - log_id
+  - patient_id
+  - created_at
+  - record_id
+  - user_id
+  exclude_cols:
+  - self_reported_max_seconds
+  - report_minus_duration
+  - duration_to_report_ratio
+  label_col: is_accident
+  table: Toilet_Log_Features
+  time_ordered_split: true
+  top_k_features:
+  - duration_to_report_ratio
+  - duration_seconds
+  - report_minus_duration
+  - gastro_x_duration
+  - accident_ratio_7d
+  - std_duration_7d
+  - time_of_day_id
+  - max_duration_7d
+  - hour_of_day
+  - mean_duration_7d
+  train_ratio: 0.8
+features:
+  categorical:
+  - time_of_day_id
+  - day_of_week
+  - is_weekend
+  - mobility_level
+  - has_gastro_issue
+  - has_uro_issue
+  - gender
+models:
+  isolation_forest:
+    contamination: 0.03
+    max_samples: 256
+    n_estimators: 100
+    random_state: 42
+  one_class_svm:
+    gamma: auto
+    kernel: rbf
+    nu: 0.05
+    random_state: 42
+  primary: xgboost
+  simple_autoencoder:
+    batch_size: 256
+    encoding_dim: 16
+    epochs: 50
+    random_state: 42
+    validation_split: 0.2
+  train_list:
+  - xgboost
+  - isolation_forest
+  - simple_autoencoder
+  xgboost:
+    learning_rate: 0.1
+    max_depth: 4
+    n_estimators: 150
+    random_state: 42
+    scale_pos_weight: 40
+preprocessing:
+  categorical_impute_strategy: most_frequent
+  numerical_impute_strategy: median
+  onehot_handle_unknown: ignore
+  onehot_sparse: false
+threshold_search:
+  arming_normal_steps: 3
+  debounce_steps: 3
+  duration_max: 12000
+  duration_min: 60
+  duration_step: 30
+  threshold_percentile: 5
+training:
+  cv_splits: 5
+  save_metrics: true
+  verbose: 1

@@ -1,0 +1,105 @@
+{
+  "model_name": "isolation_forest_top10",
+  "feature_names": [
+    "num__duration_seconds",
+    "num__hour_of_day",
+    "num__mean_duration_7d",
+    "num__max_duration_7d",
+    "num__std_duration_7d",
+    "num__accident_ratio_7d",
+    "num__gastro_x_duration",
+    "num__report_minus_duration",
+    "num__duration_to_report_ratio",
+    "cat__time_of_day_id_1",
+    "cat__time_of_day_id_2",
+    "cat__time_of_day_id_3",
+    "cat__time_of_day_id_4",
+    "cat__time_of_day_id_5"
+  ],
+  "numerical_cols": [
+    "duration_seconds",
+    "hour_of_day",
+    "mean_duration_7d",
+    "max_duration_7d",
+    "std_duration_7d",
+    "accident_ratio_7d",
+    "gastro_x_duration",
+    "report_minus_duration",
+    "duration_to_report_ratio"
+  ],
+  "categorical_cols": [
+    "time_of_day_id"
+  ],
+  "num_features": 14,
+  "created_at": "2026-03-24T03:09:03.793089",
+  "train_metrics": {
+    "train_scores": {
+      "mean": 0.11698604325022441,
+      "std": 0.045436789373832526,
+      "min": -0.11757808034234896,
+      "max": 0.19767318168844156,
+      "p5": 0.023535943217197187,
+      "median": 0.12527079463615082,
+      "p25": 0.09726265013323324,
+      "p75": 0.14780833063003906,
+      "p95": 0.17540622873441736
+    },
+    "test_scores": {
+      "mean": 0.11773928945712311,
+      "std": 0.04527580551273057,
+      "min": -0.12029567441914013,
+      "max": 0.1962836083983751,
+      "p5": 0.023214879071050822,
+      "median": 0.12680060114722552,
+      "p25": 0.09904788528871644,
+      "p75": 0.14749459511761348,
+      "p95": 0.1747444228358614
+    },
+    "num_train_samples": 14787,
+    "num_test_samples": 3697,
+    "cv_calibration": [
+      {
+        "fold": 1,
+        "train_size": 11829,
+        "val_size": 2958,
+        "anomaly_ratio": 0.027045300878972278,
+        "percentile_used": 2.704530087897228,
+        "threshold": -0.007045836549813303
+      },
+      {
+        "fold": 2,
+        "train_size": 11829,
+        "val_size": 2958,
+        "anomaly_ratio": 0.027045300878972278,
+        "percentile_used": 2.704530087897228,
+        "threshold": 0.00032798186448682206
+      },
+      {
+        "fold": 3,
+        "train_size": 11830,
+        "val_size": 2957,
+        "anomaly_ratio": 0.026716266486303687,
+        "percentile_used": 2.671626648630369,
+        "threshold": -0.006605161402870763
+      },
+      {
+        "fold": 4,
+        "train_size": 11830,
+        "val_size": 2957,
+        "anomaly_ratio": 0.026716266486303687,
+        "percentile_used": 2.671626648630369,
+        "threshold": 0.0014863781615358567
+      },
+      {
+        "fold": 5,
+        "train_size": 11830,
+        "val_size": 2957,
+        "anomaly_ratio": 0.02705444707473791,
+        "percentile_used": 2.705444707473791,
+        "threshold": -0.0028267155771581416
+      }
+    ],
+    "calibrated_threshold": -0.0028267155771581416
+  },
+  "threshold": -0.0028267155771581416
+}

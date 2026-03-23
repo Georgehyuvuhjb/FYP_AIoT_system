@@ -1,0 +1,132 @@
+# ML Pipeline Configuration
+# This file controls feature engineering, preprocessing, and model training
+
+features:
+  categorical:
+    - time_of_day_id
+    - day_of_week
+    - is_weekend
+    - mobility_level
+    - has_gastro_issue
+    - has_uro_issue
+    - gender
+
+data:
+  # Source table for training data
+  table: "Toilet_Log_Features"
+  # Train/test split ratio
+  train_ratio: 0.8
+  # Label column for anomaly detection metadata (used for reporting only)
+  label_col: "is_accident"
+  # Base columns to always exclude (IDs, timestamps)
+  base_exclude_cols:
+    - feature_id
+    - log_id
+    - patient_id
+    - created_at
+    - record_id
+    - user_id
+
+  # Columns to exclude from features (for 'filtered' strategy) to prevent data leakage
+  exclude_cols:
+    - self_reported_max_seconds
+    - report_minus_duration
+    - duration_to_report_ratio
+
+  # Pre-defined top 10 features (for 'top10' strategy)
+  top_k_features:
+  # - duration_seconds
+  # - hour_of_day
+  # - time_since_last_log_minutes
+  # - mean_duration_7d
+  # - max_duration_7d
+  # - min_duration_7d
+  # - std_duration_7d
+  # - log_count_7d
+  # - accident_ratio_7d
+  # - time_of_day_id
+
+    - duration_to_report_ratio    
+    - duration_seconds            
+    - report_minus_duration       
+    - gastro_x_duration           
+    - accident_ratio_7d           
+    - std_duration_7d             
+    - time_of_day_id              
+    - max_duration_7d             
+    - hour_of_day                 
+    - mean_duration_7d
+
+  # Time-ordered split: use log_id (not random shuffle)
+  time_ordered_split: true
+
+preprocessing:
+  # Strategy for imputing missing values in numerical features
+  numerical_impute_strategy: "median"
+  # Strategy for imputing missing values in categorical features
+  categorical_impute_strategy: "most_frequent"
+  # Handle unknown categories in one-hot encoding
+  onehot_handle_unknown: "ignore"
+  # Use sparse output (False = dense arrays)
+  onehot_sparse: false
+
+models:
+  # List of models to train sequentially when running initial_training.py
+  train_list:
+    - "xgboost"
+    - "isolation_forest"
+    - "simple_autoencoder"
+  
+  primary: "xgboost"  # Default model to read from when making predictions
+
+  xgboost:
+    n_estimators: 150
+    max_depth: 4
+    learning_rate: 0.1
+    scale_pos_weight: 40
+    random_state: 42
+
+  isolation_forest:
+    contamination: 0.03        # Expected proportion of anomalies (~2.7% in generated data)
+    max_samples: 256           # Number of samples to draw for each tree
+    random_state: 42
+    n_estimators: 100
+
+  one_class_svm:
+    nu: 0.05                   # Upper bound on fraction of outliers
+    kernel: "rbf"
+    gamma: "auto"
+    random_state: 42
+
+  simple_autoencoder:
+    encoding_dim: 16
+    epochs: 50
+    batch_size: 256
+    validation_split: 0.2
+    random_state: 42
+
+artifacts:
+  # Directory to store trained models
+  model_dir: "Models"
+  # Save format: joblib or pickle
+  save_format: "joblib"
+
+threshold_search:
+  # Range for duration simulation
+  duration_min: 60           # seconds, avoid unrealistic too-short durations
+  duration_max: 12000          # seconds
+  duration_step: 30           # seconds, finer granularity for threshold search
+  # Arm anomaly detection only after this many consecutive normal points
+  arming_normal_steps: 3
+  # Debounce: how many consecutive steps must exceed threshold
+  debounce_steps: 3
+  # Lower-tail percentile used when calibration labels are unavailable
+  threshold_percentile: 5
+
+training:
+  # Verbosity level
+  verbose: 1
+  # Save training history/metrics
+  save_metrics: true
+  # Time-aware cross-validation splits for threshold calibration
+  cv_splits: 5

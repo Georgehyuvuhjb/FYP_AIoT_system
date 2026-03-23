@@ -1,0 +1,10 @@
+faker
+flask
+joblib
+matplotlib
+numpy
+paho-mqtt
+pandas
+python-dotenv
+pyyaml
+scikit-learn
