@@ -7,4 +7,5 @@ paho-mqtt
 pandas
 python-dotenv
 pyyaml
+requests
 scikit-learn

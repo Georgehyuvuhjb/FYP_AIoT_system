@@ -16,6 +16,15 @@ def _to_positive_int(value, field_name):
         raise ValueError(f"{field_name} must be a positive integer.")
     return parsed
 
+def _to_non_negative_int(value, field_name):
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"{field_name} must be a non-negative integer (>= 0).")
+    if parsed < 0:
+        raise ValueError(f"{field_name} must be a non-negative integer (>= 0).")
+    return parsed
+
 
 def _to_binary_int(value, field_name):
     try:
@@ -158,7 +167,9 @@ def add_patient(patient_id, age, gender, mobility_level, has_gastro_issue, has_u
     patient_id = _validate_non_empty(patient_id, "patient_id")
     age = _to_positive_int(age, "age")
     gender = _validate_non_empty(gender, "gender")
-    mobility_level = _to_positive_int(mobility_level, "mobility_level")
+    mobility_level = _to_non_negative_int(mobility_level, "mobility_level")
+    if mobility_level > 2:
+        raise ValueError("mobility_level must be between 0 and 2.")
     has_gastro_issue = _to_binary_int(has_gastro_issue, "has_gastro_issue")
     has_uro_issue = _to_binary_int(has_uro_issue, "has_uro_issue")
     self_reported_max_seconds = _to_positive_int(self_reported_max_seconds, "self_reported_max_seconds")
