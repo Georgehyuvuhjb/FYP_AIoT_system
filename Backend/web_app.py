@@ -899,6 +899,7 @@ def _get_dashboard_data():
 # Routes
 # ==========================================
 
+
 @app.route("/")
 def dashboard():
     """Render the live monitoring dashboard."""
