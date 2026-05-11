@@ -1,7 +1,5 @@
 ﻿# AIoT Smart Ward System (FYP)
 
-An AI-powered Internet of Things (AIoT) system designed for smart healthcare and ward monitoring. This project integrates hardware sensors, an MQTT communication layer, a web dashboard, machine learning anomaly detection, and an LLM-based assistant.
-
 ## Demos
 
 - **Software Demo**: [Watch on YouTube](https://youtu.be/IZissjhuDjo)
